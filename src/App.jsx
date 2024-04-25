@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import { Dashboard } from './Pages/Dashboard'
@@ -6,9 +5,8 @@ import { NotFound } from './Exception/NotFound'
 import { Home } from './Pages/Home'
 import { Register } from './Pages/Register'
 
-function App() {
-  const [count, setCount] = useState(0)
 
+function App() {
   return (
     <Router>
       <Routes>
@@ -20,5 +18,4 @@ function App() {
     </Router>
   )
 }
-
 export default App
