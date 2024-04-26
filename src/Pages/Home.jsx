@@ -1,52 +1,92 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import UserService from '../Services/UserService';
+import { notify } from '../Util/Notification';
 
 export const Home = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: '',
+    });
+   
+     const handleChange = (e) => {
+        // console.log(e.target.name,e.target.value);
+        const { name, value } = e.target;
+        setLoginData((data) => ({
+           ...data,
+            [name]: value,
+        }))};
 
-    const handleLogin = () => {
-        // Handle login logic here
-        // You can use the email and password state variables to send the login request
-        // For simplicity, let's assume the login is successful
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (!loginData.email || !loginData.password) {
+            notify('All fields are required', 'warning');
+            setLoginData({
+                email: '',
+                password: '',
+            });
+            return;
+        }
+        
+       UserService.loginUser(loginData)
+       .then((response) => {
+        if(response.status === 200){
+            window.location.href = '/dashboard';
+            notify(response.data, 'success');
+        }
+        else{
+            notify('User login fail', 'error');
+            setLoginData({
+                email: '',
+                password: '',
+            });
+        }}).catch((error) => {
+                notify('Something went wrong', 'error');
+                setLoginData({
+                    email: '',
+                    password: '',
+                });
+         })
+         
+         setLoginData({
+            email: '',
+            password: '',
+        });
     };
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <h1 className='font-bold text-3xl text-sky-400'>Welcome to Fitness hub</h1>
+            <h1 className='font-bold text-3xl text-sky-400'>Welcome to Fitness Club</h1>
 
-            <form className="mt-4 flex flex-col items-center">
+            <form onSubmit={handleLogin} className="mt-4 flex flex-col items-center">
                 <h2 className="text-2xl font-semibold mb-4">Login</h2>
                 <div className="mb-4">
-                    <label htmlFor="email" className="block mb-2 text-lg">
-                        Email
-                    </label>
                     <input
                         type="email"
+                        name='email'
                         id="email"
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={loginData.email}
+                        onChange={handleChange}
+                        placeholder='Email'
                     />
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="password" className="block mb-2 text-lg">
-                        Password
-                    </label>
                     <input
                         type="password"
+                        name='password'
                         id="password"
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={loginData.password}
+                        onChange={handleChange}
+                        placeholder='Password'
                     />
                 </div>
 
                 <button
-                    type="button"
+                    type="submit"
                     className="px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                    onClick={handleLogin}
                 >
                     Login
                 </button>

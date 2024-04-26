@@ -12,6 +12,14 @@ const UserApi =  {
             return error;
         }
     },
+    loginUser: async (data) => {
+        try {
+            const response = await axios.post(`${USER_API_URL}/login`, data);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
     
 }
 

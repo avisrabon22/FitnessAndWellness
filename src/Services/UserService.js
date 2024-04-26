@@ -10,6 +10,15 @@ const UserService =  {
             return error;
         }
     },
+    // User login service
+    loginUser: async (data) => {
+        try {
+            const response = await UserApi.loginUser(data);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
 
 
 }
