@@ -1,17 +1,20 @@
-import { toast } from "react-toastify";
+
+import { toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const notify = (message, type) => {
+
     switch (type) {
         case "success":
-        toast.success(message);
-        break;
+            toast.success(message);
+            break;
         case "error":
-        toast.error(message);
-        break;
+            toast.error(message);
+            break;
         case "warning":
-        toast.warning(message);
-        break;
+            toast.warning(message);
+            break;
         default:
-        toast.info(message);
+            toast.info(message);
     }
-    };
+};

@@ -4,7 +4,7 @@ import { notify } from "../Util/Notification";
 
 export const Register = () => {
    
-    const [userData,setUserdata] = useState({
+    const [userData,setUserData] = useState({
         name:``,
         email:``,
         password:``,
@@ -15,7 +15,7 @@ export const Register = () => {
     })
 
     const handleChange = (e) => {
-        setUserdata({
+        setUserData({
             ...userData,
             [e.target.name]:e.target.value
         })
@@ -26,25 +26,41 @@ export const Register = () => {
         console.log(userData);
         if (!userData.email || !userData.name ||!userData.password||!userData.age || !userData.height || !userData.weight || !userData.gender) {
             notify('All fields are required','warning')
-            // return;
+            setUserData({
+                name:``,
+                email:``,
+                password:``,
+                age:``,
+                height:``,
+                weight:``,
+                gender:``,
+                 })
+            return;
         }
         
         UserService.registerUser(userData).then(res=>{
-            console.log(userData)
-            notify('User registered successfully','success')
+            if(res.status === 201){
+                notify(res.data,'success')
+            }
+            else{
+                notify('User registration failed','error')
+            }
             console.log(res);
+           
         }).catch(err=>{
-            notify('User registration failed','error')
+            notify('Something went wrong','error')
             console.log(err);
         })
         
-        userData.name = '';
-        userData.email = '';
-        userData.password = '';
-        userData.age = '';
-        userData.height = '';
-        userData.weight = '';
-        userData.gender = '';
+       setUserData({
+        name:``,
+        email:``,
+        password:``,
+        age:``,
+        height:``,
+        weight:``,
+        gender:``,
+         })
 
     };
 
@@ -60,6 +76,7 @@ export const Register = () => {
                 </label>
                 <input
                     type="text"
+                    name="name"
                     id="name"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={userData.name}
@@ -86,7 +103,8 @@ export const Register = () => {
                     Password
                 </label>
                 <input
-                    type="text"
+                    type="password"
+                    name="password"
                     id="password"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={userData.password}
@@ -99,7 +117,8 @@ export const Register = () => {
                     Age
                 </label>
                 <input
-                    type="text"
+                    type="number"
+                    name="age"
                     id="age"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={userData.age}
@@ -113,6 +132,7 @@ export const Register = () => {
                 </label>
                 <input
                     type="number"
+                    name="height"
                     id="height"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={userData.height}
@@ -126,6 +146,7 @@ export const Register = () => {
                 </label>
                 <input
                     type="number"
+                    name="weight"
                     id="weight"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={userData.weight}
@@ -138,7 +159,8 @@ export const Register = () => {
                 Gender
                 </label>
                 <input
-                    type="number"
+                    type="text"
+                    name="gender"
                     id="gender"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={userData.gender}
@@ -147,9 +169,7 @@ export const Register = () => {
             </div>
             <button
                 type="submit"
-                className="px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                   
-            >
+                className="px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600">
                 Register
             </button>
         </form>
