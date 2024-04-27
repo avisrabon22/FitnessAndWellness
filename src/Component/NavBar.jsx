@@ -5,7 +5,7 @@ export const NavBar = () => {
         <div className="bg-gray-800">
             <nav className="flex justify-between items-center py-4 px-6 w-full">
                 <div>
-                   <h1 className='text-gray-300 hover:text-white'>Welcome to Dashboard</h1>
+                   <h1 className='text-gray-300 hover:text-white'>Welcome to Fitness Dashboard</h1>
                 </div>
                 <div>
                     <ul className="flex space-x-4">

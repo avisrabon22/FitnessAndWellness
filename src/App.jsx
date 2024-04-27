@@ -4,6 +4,7 @@ import { Dashboard } from './Pages/Dashboard'
 import { NotFound } from './Exception/NotFound'
 import { Home } from './Pages/Home'
 import { Register } from './Pages/Register'
+import { Profile } from './Pages/Profile'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='/profile' element={<Profile/>}/>
         <Route path='*' element={<NotFound/>} />
       </Routes>
     </Router>
