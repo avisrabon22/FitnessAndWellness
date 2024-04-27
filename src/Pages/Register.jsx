@@ -70,10 +70,10 @@ export const Register = () => {
 
 
     return <div className="flex flex-col items-center justify-center">
-        <h1 className='font-bold text-3xl text-sky-400'>Welcome to Fitness hub</h1>
+        <h1 className='font-bold text-3xl text-sky-400'>Welcome to Fitness Club</h1>
 
         <form onSubmit={handleRegister} className="mt-4 flex flex-col items-center">
-        <h2 className='font-bold text-3xl '>Register</h2>
+        <h2 className='font-bold text-3xl m-2 '>Register</h2>
             <div className="mb-4">
                 <input
                     type="text"

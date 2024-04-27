@@ -1,7 +1,9 @@
+import { DashboardComponent } from "../Component/DashboardComponent"
+
 export const Dashboard = ()=> {
 
     return <div>
-        <h1>Welcome to Dashboard</h1>
+        <DashboardComponent/>
     </div>
 
 

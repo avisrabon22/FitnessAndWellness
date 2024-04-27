@@ -9,14 +9,15 @@ export const Home = () => {
         password: '',
     });
    
+    // Handle change
      const handleChange = (e) => {
-        // console.log(e.target.name,e.target.value);
         const { name, value } = e.target;
         setLoginData((data) => ({
            ...data,
             [name]: value,
         }))};
 
+        // Handle login
     const handleLogin = (e) => {
         e.preventDefault();
         if (!loginData.email || !loginData.password) {
@@ -27,11 +28,12 @@ export const Home = () => {
             });
             return;
         }
-        
+
        UserService.loginUser(loginData)
        .then((response) => {
-        if(response.status === 200){
+        if(response.status === 200){ 
             window.location.href = '/dashboard';
+           
             notify(response.data, 'success');
         }
         else{

@@ -12,9 +12,11 @@ const UserApi =  {
             return error;
         }
     },
+    // User login
     loginUser: async (data) => {
         try {
             const response = await axios.post(`${USER_API_URL}/login`, data);
+            console.log(response);
             return response;
         } catch (error) {
             return error;
