@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import UserService from '../Services/UserService';
 import { notify } from '../Util/Notification';
 
+
+
+
 export const Home = () => {
+  const history = useHistory;
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
@@ -32,6 +36,7 @@ export const Home = () => {
        UserService.loginUser(loginData)
        .then((response) => {
         if(response.status === 200){ 
+            console.log(response);
             window.location.href = '/dashboard';
            
             notify(response.data, 'success');

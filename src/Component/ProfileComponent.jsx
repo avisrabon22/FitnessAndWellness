@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import ProfileService from '../Services/ProfileService';
-import Cookies from 'js-cookie';
+
 
 export const ProfileComponent = () => {
     
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState(null);
+
+
     const cookieString=document.cookie;
     const cookies = cookieString.split(';');
     for(const cookie of cookies){
-      
+        const cookiePair = cookie.split('=');
+        if(cookiePair[0].trim() === 'token'){
+            const token = cookiePair[1];
+            ProfileService.getProfile(token).then((response) => {
+                setProfile(response.data);
+            });
+        }
     }
-    
-    
-    ProfileService.getProfile().then((response) => {
-    });
+
 
     const handleEditClick = () => {
         setIsEditing(true);

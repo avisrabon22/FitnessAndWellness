@@ -15,6 +15,7 @@ const UserApi =  {
     // User login
     loginUser: async (data) => {
         try {
+            console.log(data);
             const response = await axios.post(`${USER_API_URL}/login`, data);
             console.log(response);
             return response;
