@@ -13,10 +13,10 @@ const UserApi =  {
         }
     },
     // User login
-    loginUser: async (data) => {
+    loginUser: async(data) => {
         try {
             console.log(data);
-            const response = await axios.post(`${USER_API_URL}/login`, data);
+            const response = await axios.post(`${USER_API_URL}/login`, data, {withCredentials: true});
             console.log(response);
             return response;
         } catch (error) {

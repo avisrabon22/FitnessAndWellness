@@ -1,6 +1,8 @@
 import { NavBar } from "./NavBar"
 
 export const DashboardComponent = ()=> {
+
+    
     return <>
     <NavBar/>
     <div className="container mx-auto">

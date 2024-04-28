@@ -1,28 +1,28 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserService from '../Services/UserService';
 import { notify } from '../Util/Notification';
 
 
 
-
 export const Home = () => {
-  const history = useHistory;
+    const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
     });
-   
+
     // Handle change
-     const handleChange = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setLoginData((data) => ({
-           ...data,
+            ...data,
             [name]: value,
-        }))};
+        }))
+    };
 
-        // Handle login
-    const handleLogin = (e) => {
+    // Handle login
+    const handleLogin = async (e) => {
         e.preventDefault();
         if (!loginData.email || !loginData.password) {
             notify('All fields are required', 'warning');
@@ -32,34 +32,25 @@ export const Home = () => {
             });
             return;
         }
-
-       UserService.loginUser(loginData)
-       .then((response) => {
-        if(response.status === 200){ 
-            console.log(response);
-            window.location.href = '/dashboard';
-           
-            notify(response.data, 'success');
+        try {
+            const response = await UserService.loginUser(loginData);
+            if (response.status === 200) {
+                notify(response.data, 'success');
+                return navigate('/dashboard');
+            } else {
+                notify('Invalid credentials', 'error');
+                return;
+            }
         }
-        else{
-            notify('User login fail', 'error');
-            setLoginData({
-                email: '',
-                password: '',
-            });
-        }}).catch((error) => {
-                notify('Something went wrong', 'error');
-                setLoginData({
-                    email: '',
-                    password: '',
-                });
-         })
-         
-         setLoginData({
-            email: '',
-            password: '',
-        });
+        catch (error) {
+            notify('Invalid credentials', 'error');
+           return; 
+        }
     };
+
+
+
+
 
     return (
         <div className="flex flex-col items-center justify-center">
