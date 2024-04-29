@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
-import ProfileService from '../Services/ProfileService';
+import React, { useEffect, useState } from 'react';
+import UserService from '../Services/UserService';
+import { notify } from '../Util/Notification';
 
 
 export const ProfileComponent = () => {
-    
+
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState(null);
 
-
-    const cookieString=document.cookie;
-    const cookies = cookieString.split(';');
-    for(const cookie of cookies){
-        const cookiePair = cookie.split('=');
-        if(cookiePair[0].trim() === 'token'){
-            const token = cookiePair[1];
-            ProfileService.getProfile(token).then((response) => {
-                setProfile(response.data);
-            });
-        }
+    // Fetch profile data
+    const fetchProfile = async () => {
+        UserService.profile().then((response) => {
+            setProfile(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
     }
+
+    // Fetch profile data on component mount
+    useEffect(() => {
+        fetchProfile();
+    }, []);
 
 
     const handleEditClick = () => {
@@ -27,26 +30,126 @@ export const ProfileComponent = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Add your form submission logic here
-
+        // update your form submission logic here
+        UserService.updateProfile(profile).then((response) => {
+            notify(profile.data, 'success');
+        }).catch((error) => {
+            notify('Something went wrong', 'error');
+        });
+        
+        // after form submission, set isEditing to false    
         setIsEditing(false);
     };
 
     return (
         <div>
             {isEditing ? (
-                <form onSubmit={handleSubmit}>
-                    {/* Add your editable form fields here */}
-                    <input type="text" placeholder="Name" value={profile.name} />
-                    <input type="email" placeholder="Email" value={profile.email} />
+                <div className="flex flex-col items-center justify-center">
+                    <h1 className='font-bold text-3xl text-sky-400'>Welcome to Fitness Club</h1>
 
-                    <button type="submit">Save</button>
-                </form>
+                    <form onSubmit={handleSubmit} className="mt-4 flex flex-col items-center">
+                        <h2 className='font-bold text-3xl m-2 '>Register</h2>
+                        <div className="mb-4">
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.name}
+                                onChange={handleChange}
+                                placeholder="Enter your name"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <input
+                                type="email"
+                                id="email"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <input
+                                type="password"
+                                id="password"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.password}
+                                onChange={handleChange}
+                                placeholder="Enter your password"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <input
+                                type="number"
+                                name="age"
+                                id="age"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.age}
+                                onChange={handleChange}
+                                placeholder="Enter your age"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <input
+                                type="number"
+                                name="height"
+                                id="height"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.height}
+                                onChange={handleChange}
+                                placeholder="Enter your height"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <input
+                                type="number"
+                                name="weight"
+                                id="weight"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.weight}
+                                onChange={handleChange}
+                                placeholder="Enter your weight"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <select
+                                type="text"
+                                name="gender"
+                                id="gender"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={userData.gender}
+                                onChange={handleChange}
+
+                            >
+                                <option value="">Gender</option>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600">
+                            Save
+                        </button>
+                    </form>
+                </div>
             ) : (
                 <div>
                     {/* Add your non-editable content here */}
-                    <p>Name: John Doe</p>
-                    <p>Email: johndoe@example.com</p>
+                    <p>Name: {profile.name}</p>
+                    <p>Email: {profile.email}</p>
+                    <p>Email: {profile.age}</p>
+                    <p>Email: {profile.height}</p>
+                    <p>Email: {profile.weight}</p>
+                    <p>Email: {profile.gender}</p>
                 </div>
             )}
             <button onClick={handleEditClick}>Edit</button>

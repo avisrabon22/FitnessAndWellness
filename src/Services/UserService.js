@@ -20,6 +20,25 @@ const UserService =  {
         }
     },
 
+    // Profile service
+    profile: async () => {
+        try {
+            const response = await UserApi.profile();
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
+
+    // Update profile service
+    updateProfile: async (data) => {
+        try {
+            const response = await UserApi.updateProfile(data);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
 
 }
 

@@ -23,7 +23,25 @@ const UserApi =  {
             return error;
         }
     },
-    
+    // Get profile
+    profile:async()=>{
+        try {
+            const response = await axios.get(`${USER_API_URL}/profile`, {withCredentials: true});
+            console.log(response);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
+    // Update profile
+    updateProfile:async(data)=>{
+        try {
+            const response = await axios.put(`${USER_API_URL}/profile`, data, {withCredentials: true});
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
 }
 
 export default UserApi;

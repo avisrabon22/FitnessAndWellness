@@ -1,10 +1,11 @@
 import { useEffect } from "react"
 import { NavBar } from "./NavBar"
+import UserService from "../Services/UserService"
 
 export const DashboardComponent = ()=> {
 
     useEffect(()=>{
-        
+
        
     }
     ,[])
