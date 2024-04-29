@@ -1,8 +1,14 @@
+import { useEffect } from "react"
 import { NavBar } from "./NavBar"
 
 export const DashboardComponent = ()=> {
 
-    
+    useEffect(()=>{
+        
+       
+    }
+    ,[])
+
     return <>
     <NavBar/>
     <div className="container mx-auto">
