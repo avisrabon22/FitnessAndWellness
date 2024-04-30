@@ -22,7 +22,7 @@ export const Home = () => {
     // Handle login
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!loginData.email || !loginData.password) {
+        if (!loginData.email || !loginData.password || loginData.email.trim() === '' || loginData.password.trim() === '') {
             notify('All fields are required,you missed something', 'warning');
             setLoginData({
                 email: '',
@@ -33,7 +33,6 @@ export const Home = () => {
         try {
             const response = await UserService.loginUser(loginData);
             if (response.status === 200) {
-                localStorage.setItem('authorization', response.data.token);
                 notify(response.data, 'success');
                 return navigate('/dashboard');
             } else {
