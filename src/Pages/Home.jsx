@@ -25,7 +25,7 @@ export const Home = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         if (!loginData.email || !loginData.password) {
-            notify('All fields are required', 'warning');
+            notify('All fields are required,you missed something', 'warning');
             setLoginData({
                 email: '',
                 password: '',

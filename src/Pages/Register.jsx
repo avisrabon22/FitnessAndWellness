@@ -29,7 +29,7 @@ export const Register = () => {
         event.preventDefault();
         console.log(userData);
         if (!userData.email || !userData.name ||!userData.password||!userData.age || !userData.height || !userData.weight || !userData.gender) {
-            notify('All fields are required','warning')
+            notify('All fields are required,you missed something','warning')
             setUserData({
                 name:``,
                 email:``,
