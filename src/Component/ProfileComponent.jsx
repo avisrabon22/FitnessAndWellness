@@ -12,7 +12,7 @@ export const ProfileComponent = () => {
     // Fetch profile data
     const fetchProfile = async () => {
         UserService.profile().then((response) => {
-            if (response===undefined || response.status === 401) {
+            if (response!=="") {
                 notify("Something went wrong,please login again", 'error');
                 return navigate('/');
             }

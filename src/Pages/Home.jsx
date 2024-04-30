@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import UserService from '../Services/UserService';
 import { notify } from '../Util/Notification';
 
-
-
 export const Home = () => {
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({

@@ -68,6 +68,17 @@ export const Register = () => {
 
     };
 
+    const resetData = () => {
+        setUserData({
+            name:``,
+            email:``,
+            password:``,
+            age:``,
+            height:``,
+            weight:``,
+            gender:``,
+
+        })}
 
     return <div className="flex flex-col items-center justify-center">
         <h1 className='font-bold text-3xl text-sky-400'>Welcome to Fitness Club</h1>
@@ -166,6 +177,12 @@ export const Register = () => {
                 type="submit"
                 className="px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600">
                 Register
+            </button>
+            <button
+                type="button"
+                onClick={resetData}
+                className=" m-4 px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600">
+                Reset
             </button>
             <p className="mt-4">
                 have an account?{' '}
