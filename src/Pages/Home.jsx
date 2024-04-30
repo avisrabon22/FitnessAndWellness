@@ -35,6 +35,7 @@ export const Home = () => {
         try {
             const response = await UserService.loginUser(loginData);
             if (response.status === 200) {
+                localStorage.setItem('authorization', response.data.token);
                 notify(response.data, 'success');
                 return navigate('/dashboard');
             } else {

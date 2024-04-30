@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import UserService from '../Services/UserService';
 import { notify } from '../Util/Notification';
+import { useNavigate } from 'react-router-dom';
 
 
 export const ProfileComponent = () => {
-
+  const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
-    const [profile, setProfile] = useState(null);
+    const [profile, setProfile] = useState({});
 
     // Fetch profile data
     const fetchProfile = async () => {
         UserService.profile().then((response) => {
+            if (response===undefined || response.status === 401) {
+                notify("Something went wrong,please login again", 'error');
+                return navigate('/');
+            }
             setProfile(response.data);
             console.log(response.data);
         }).catch((error) => {
@@ -25,6 +30,7 @@ export const ProfileComponent = () => {
 
 
     const handleEditClick = () => {
+        fetchProfile();
         setIsEditing(true);
     };
 
@@ -41,6 +47,10 @@ export const ProfileComponent = () => {
         setIsEditing(false);
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProfile({ ...profile, [name]: value });
+    }
     return (
         <div>
             {isEditing ? (
@@ -55,7 +65,7 @@ export const ProfileComponent = () => {
                                 name="name"
                                 id="name"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.name}
+                                value={profile.name}
                                 onChange={handleChange}
                                 placeholder="Enter your name"
                             />
@@ -65,9 +75,12 @@ export const ProfileComponent = () => {
                             <input
                                 type="email"
                                 id="email"
+                                name='email'
+                                readOnly
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.email}
+                                value={profile.email}
                                 onChange={handleChange}
+                                placeholder="Enter your email"
                             />
                         </div>
 
@@ -75,8 +88,10 @@ export const ProfileComponent = () => {
                             <input
                                 type="password"
                                 id="password"
+                                name='password'
+                                readOnly
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.password}
+                                value={profile.password}
                                 onChange={handleChange}
                                 placeholder="Enter your password"
                             />
@@ -88,7 +103,7 @@ export const ProfileComponent = () => {
                                 name="age"
                                 id="age"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.age}
+                                value={profile.age}
                                 onChange={handleChange}
                                 placeholder="Enter your age"
                             />
@@ -100,7 +115,7 @@ export const ProfileComponent = () => {
                                 name="height"
                                 id="height"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.height}
+                                value={profile.height}
                                 onChange={handleChange}
                                 placeholder="Enter your height"
                             />
@@ -112,7 +127,7 @@ export const ProfileComponent = () => {
                                 name="weight"
                                 id="weight"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.weight}
+                                value={profile.weight}
                                 onChange={handleChange}
                                 placeholder="Enter your weight"
                             />
@@ -124,7 +139,7 @@ export const ProfileComponent = () => {
                                 name="gender"
                                 id="gender"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={userData.gender}
+                                value={profile.gender}
                                 onChange={handleChange}
 
                             >
@@ -144,15 +159,19 @@ export const ProfileComponent = () => {
             ) : (
                 <div>
                     {/* Add your non-editable content here */}
-                    <p>Name: {profile.name}</p>
-                    <p>Email: {profile.email}</p>
-                    <p>Email: {profile.age}</p>
-                    <p>Email: {profile.height}</p>
-                    <p>Email: {profile.weight}</p>
-                    <p>Email: {profile.gender}</p>
+                    <p className="text-lg">Name: {profile.name}</p>
+                    <p className="text-lg">Email: {profile.email}</p>
+                    <p className="text-lg">Age: {profile.age}</p>
+                    <p className="text-lg">Height: {profile.height}</p>
+                    <p className="text-lg">Weight: {profile.weight}</p>
+                    <p className="text-lg">Gender: {profile.gender}</p>
+                    <button
+                        onClick={handleEditClick}
+                        className="px-4 py-2 text-lg text-white bg-blue-500 rounded-md hover:bg-blue-600">
+                        Edit
+                    </button>
                 </div>
             )}
-            <button onClick={handleEditClick}>Edit</button>
         </div>
     );
 };
