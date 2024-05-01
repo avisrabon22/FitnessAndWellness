@@ -33,8 +33,7 @@ export const Home = () => {
         try {
             const response = await UserService.loginUser(loginData);
             if (response.status === 200) {
-                localStorage.setItem('authorization', response.data.token);
-                notify(response.data, 'success');
+                notify("You are logged in", 'success');
                 return navigate('/dashboard');
             } else {
                 notify('Invalid credentials', 'error');
